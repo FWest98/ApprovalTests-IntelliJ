@@ -1,18 +1,46 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.fwest98.osapprovaltestsintellij</id>
-    <name>OS-ApprovalTests-IntellIJ</name>
-    <vendor>fwest98</vendor>
+    <id>nl.fwest98.jetbrains.approvaltests</id>
+    <name>ApprovalTests Support</name>
+    <vendor>Floris Westerman</vendor>
 
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
+    <resource-bundle>TextBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.fwest98.osapprovaltestsintellij.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+        <runConfigurationExtension
+                implementation="nl.fwest98.jetbrains.approvaltests.extensions.ApprovalTestsRunConfigurationExtension"
+                id="nl.fwest98.jetbrains.approvaltests.extensions.ApprovalTestsRunConfigurationExtension" />
     </extensions>
 
-    <applicationListeners>
-        <listener class="com.github.fwest98.osapprovaltestsintellij.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
+    <actions>
+        <action id="nl.fwest98.jetbrains.approvaltests.actions.ApproveTestAction"
+                class="nl.fwest98.jetbrains.approvaltests.actions.ApproveTestAction"
+                icon="AllIcons.Debugger.Db_verified_breakpoint" />
+        <action id="nl.fwest98.jetbrains.approvaltests.actions.ApproveTestsAction"
+                class="nl.fwest98.jetbrains.approvaltests.actions.ApproveTestsAction"
+                icon="AllIcons.Debugger.Db_verified_breakpoint" />
+
+        <action id="nl.fwest98.jetbrains.approvaltests.actions.DiffTestAction"
+                class="nl.fwest98.jetbrains.approvaltests.actions.DiffTestAction"
+                icon="AllIcons.Debugger.Db_verified_field_breakpoint" />
+        <action id="nl.fwest98.jetbrains.approvaltests.actions.DiffTestsAction"
+                class="nl.fwest98.jetbrains.approvaltests.actions.DiffTestsAction"
+                icon="AllIcons.Debugger.Db_verified_field_breakpoint" />
+
+        <group id="nl.fwest98.approvaltests.intellij.actions"
+               compact="true"
+               popup="false">
+            <add-to-group group-id="TestTreePopupMenu" anchor="before" relative-to-action="EditSource"/>
+
+            <separator />
+            <reference id="nl.fwest98.jetbrains.approvaltests.actions.ApproveTestAction" />
+            <reference id="nl.fwest98.jetbrains.approvaltests.actions.ApproveTestsAction" />
+            <reference id="nl.fwest98.jetbrains.approvaltests.actions.DiffTestAction" />
+            <reference id="nl.fwest98.jetbrains.approvaltests.actions.DiffTestsAction" />
+            <separator />
+        </group>
+    </actions>
 </idea-plugin>
